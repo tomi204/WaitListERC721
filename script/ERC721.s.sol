@@ -9,6 +9,6 @@ contract CounterScript is Script {
 
     function run() public {
         vm.broadcast();
-        new TomiNFT();
+        new TomiNFT("https://ipfs.io");
     }
 }

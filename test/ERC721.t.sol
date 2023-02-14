@@ -9,7 +9,7 @@ contract ERC721Test is Test {
     address user = address(0x123);
 
     function setUp() public {
-        nft = new TomiNFT();
+        nft = new TomiNFT("https://ipfs.io");
     }
 
     //////@dev function for test mint
@@ -25,10 +25,19 @@ contract ERC721Test is Test {
         nft.addWhiteList(user);
         nft.MintNFT(user);
         assertEq(nft.balanceOf(user), 1);
+        nft.isWhiteListed(user);
     }
 
     ////@dev test delete user from list
     function testDelete() public {
         nft.removeWhiteList(user);
+    }
+
+    function testChangeURI() public {
+        nft.changeTokenURI("https://ipfs.io");
+    }
+
+    function testWithdraw() public {
+        nft.withdraw();
     }
 }
