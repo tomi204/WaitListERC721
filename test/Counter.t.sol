@@ -2,23 +2,17 @@
 pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
-import "../src/Counter.sol";
+import {TomiNFT} from "../src/ERC721.sol";
 
-contract CounterTest is Test {
-    Counter public counter;
+contract ERC721Test is Test {
+    TomiNFT nft;
 
     function setUp() public {
-        counter = new Counter();
-        counter.setNumber(0);
+        nft = new TomiNFT();
     }
 
-    function testIncrement() public {
-        counter.increment();
-        assertEq(counter.number(), 1);
-    }
-
-    function testSetNumber(uint256 x) public {
-        counter.setNumber(x);
-        assertEq(counter.number(), x);
+    function testMintNFT() public {
+        nft.MintNFT();
+        assertEq(nft.balanceOf(address(this)), 2);
     }
 }
