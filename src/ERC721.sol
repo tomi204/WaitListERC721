@@ -1,17 +1,44 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.12;
-import "../lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract TomiNFT is ERC721 {
+contract TomiNFT is ERC721, Ownable {
     uint256 public NFTcount;
 
-    constructor() ERC721("Tomi", "204") {
+    constructor() ERC721("Tomi", "204") onlyOwner {
         NFTcount = 1;
         _mint(msg.sender, NFTcount);
     }
 
+    //////////@dev mappings
+
+    mapping(address => bool) private _listed;
+
+    /////////@dev modifiers
+
+    modifier OnlyWhiteListed() {
+        require(_listed[msg.sender] == true, "you need to be listed");
+        _;
+    }
+
+    //////////@dev events
+    event NFTMinted(address user, uint256 tokenId);
+
+    //////////@dev functions
     function MintNFT() public {
         NFTcount++;
         _mint(msg.sender, NFTcount);
+        emit NFTMinted(msg.sender, NFTcount);
+    }
+
+    /////////@dev admin functions
+
+    function addWhiteList(address _address) public onlyOwner {
+        _listed[_address] = true;
+    }
+
+    function removeWhiteList(address _address) public onlyOwner {
+        _listed[_address] = false;
     }
 }
