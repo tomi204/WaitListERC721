@@ -27,6 +27,7 @@ contract TomiNFT is ERC721, Ownable {
 
     //////////@dev functions
     function MintNFT(address _to) public OnlyWhiteListed {
+        require(_listed[_to] == true);
         NFTcount++;
         _mint(_to, NFTcount);
         emit NFTMinted(msg.sender, NFTcount);

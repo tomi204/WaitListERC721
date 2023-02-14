@@ -19,19 +19,16 @@ contract ERC721Test is Test {
         assertEq(nft.balanceOf(address(this)), 2);
     }
 
-    ///////@dev test list user
-    function testListUser() public {
-        nft.addWhiteList(user);
-    }
-
-    ////////@dev test mint user
+    ////////@dev test mint user and list user
     function testMintUser() public {
+        nft.addWhiteList(address(this));
+        nft.addWhiteList(user);
         nft.MintNFT(user);
         assertEq(nft.balanceOf(user), 1);
     }
 
-    // ////@dev test delete user from list
-    // function testDelete() public {
-    //     nft.removeWhiteList(user);
-    // }
+    ////@dev test delete user from list
+    function testDelete() public {
+        nft.removeWhiteList(user);
+    }
 }
